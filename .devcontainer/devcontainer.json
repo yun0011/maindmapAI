@@ -1,0 +1,117 @@
+{
+  "name": "Mindora Project",
+  "dockerFile": "Dockerfile.dev",
+  "context": "..",
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+  "runArgs": ["--name=mindora-project"],
+
+  // node_modules를 Docker 볼륨으로 분리하여 호스트와 공유하지 않음
+  "mounts": ["source=mindora-frontend-node-modules,target=/workspace/frontend/node_modules,type=volume"],
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        // python
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        "charliermarsh.ruff",
+        "njpwerner.autodocstring",
+
+        // vue/Nuxt
+        "Vue.volar",
+        "Vue.vscode-typescript-vue-plugin",
+
+        // common
+        "esbenp.prettier-vscode",
+        "gruntfuggly.todo-tree",
+        "mechatroner.rainbow-csv",
+        "redhat.vscode-yaml",
+        "mikestead.dotenv",
+        "tamasfe.even-better-toml",
+        "ms-azuretools.vscode-docker",
+        "usernamehw.errorlens",
+        "mosapride.zenkaku"
+      ],
+      "settings": {
+        // 서명 검증 이슈 회피
+        "extensions.verifySignature": false,
+
+        // editor
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "editor.rulers": [120],
+        "editor.renderWhitespace": "all",
+        "editor.linkedEditing": true,
+        "editor.selectionHighlight": true,
+        "editor.comments.ignoreEmptyLines": false,
+        "editor.codeActionsOnSave": {
+          "source.fixAll": "explicit",
+          "source.organizeImports": "explicit"
+        },
+
+        // terminal (zsh 기본)
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "terminal.integrated.profiles.linux": {
+          "zsh": { "path": "/bin/zsh" }
+        },
+
+        // prettier
+        "prettier.printWidth": 120,
+
+        // Python
+        "[python]": {
+          "editor.defaultFormatter": "charliermarsh.ruff",
+          "editor.formatOnSave": true,
+          "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit",
+            "source.organizeImports": "explicit"
+          }
+        },
+        "python.defaultInterpreterPath": "/workspace/.venv/bin/python",
+        "python.analysis.autoSearchPaths": true,
+        "python.analysis.typeCheckingMode": "off",
+        "python.languageServer": "Pylance",
+
+        // jupyter
+        "jupyter.notebookFileRoot": "/workspace",
+        "jupyter.askForKernelRestart": false,
+
+        // yaml
+        "[yaml]": {
+          "editor.defaultFormatter": "redhat.vscode-yaml"
+        },
+
+        // toml
+        "[toml]": {
+          "editor.defaultFormatter": "tamasfe.even-better-toml"
+        },
+
+        // dockerfile
+        "[dockerfile]": {
+          "editor.defaultFormatter": null,
+          "editor.formatOnSave": false
+        },
+
+        // todo-tree
+        "todo-tree.general.tags": ["TODO", "FIXME", "NOTE", "BUG", "HACK", "XXX"],
+        "todo-tree.highlights.defaultHighlight": {
+          "type": "tag",
+          "foreground": "#ffffff",
+          "background": "#da9d19",
+          "iconColour": "#da9d19"
+        },
+
+        // files
+        "files.trimTrailingWhitespace": true,
+        "files.insertFinalNewline": true,
+        "files.trimFinalNewlines": true,
+        "files.autoSave": "off"
+      }
+    }
+  },
+
+  // 포트 포워딩 설정
+  "forwardPorts": [8000, 3000]
+}
